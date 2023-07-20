@@ -8,14 +8,14 @@
   },
   "keywords": [],
   "author": "gmchad <chad@ethsd.org>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "ffjavascript": "^0.2.57",
     "hardhat": "^2.12.7"
   },
   "dependencies": {
-    "hardhat-circom": "^3.3.2",
-    "snarkjs": "^0.6.3"
+    "hardhat-circom": "^2.12.7",
+    "snarkjs": "^5.5.1"
   }
 }
