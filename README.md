@@ -5,69 +5,59 @@ A hardhat-circom template to generate zero-knowledge circuits, proofs, and solid
 Quick Start
 Compile the CustomCircuit() circuit and verify it against a smart contract verifier
 
-pragma circom 2.0.0; 
-// This circuit template checks if the sum of two inputs, a and b, is less than or equal to a threshold.
+pragma circom 2.0.0;
 
-template MyCustomCircuit() {
-    signal input a;
-    signal input b;
-    signal output result;
-    signal threshold;
+/*This circuit template checks that c is the multiplication of a and b.*/  
 
-    // Choose the threshold value (e.g., 10)
-    threshold <== 10;
+template CustomCircuit () {  
 
-    // Define the comparison circuit
-    component comparison = LessThanOrEqual();
-    comparison.a <== a + b;
-    comparison.b <== threshold;
-    result <== comparison.result;
+   // Declaration of signals.  
+   signal input a;  
+   signal input b;  
+   signal output c;  
+
+   // Constraints.  
+   c <== a * b;  
 }
+component main = CustomCircuit();
 
-template LessThanOrEqual() {
-    signal input a;
-    signal input b;
-    signal output result;
+**Circuit Template - Multiplication Check**
 
-    result <== a <= b ? 1 : 0;
-}
-
-component main = MyCustomCircuit();
-
-**Circuit Template - Sum Comparison**
-
-This circuit template checks if the sum of two inputs, `a` and `b`, is less than or equal to a threshold value. The template uses a sub-circuit named `LessThanOrEqual` to perform the comparison.
+This circuit template checks whether `c` is the result of the multiplication of two input values `a` and `b`.
 
 **Inputs:**
 - `a`: Input signal representing the first value.
 - `b`: Input signal representing the second value.
 
 **Outputs:**
-- `result`: Output signal indicating whether the sum of `a` and `b` is less than or equal to the threshold.
+- `y`: Output signal indicating whether `c` is the multiplication of `a` and `b`.
+  - If `y` is 1, it means `c = a * b`.
+  - If `y` is 0, it means `c` is not equal to `a * b`.
 
-**Threshold:**
-The threshold value is set to 10 by default. You can modify the threshold value in the `MyCustomCircuit` template to perform different comparisons.
+**Sub-Circuit - AND:**
+The `AND` sub-circuit takes two input signals, `a` and `b`, and performs a bitwise AND operation. The result is stored in the output signal `out`, which represents `a * b`.
 
-**Sub-Circuit - LessThanOrEqual:**
-The `LessThanOrEqual` sub-circuit compares two input signals, `a` and `b`, and sets the output signal `result` to 1 if `a` is less than or equal to `b`. Otherwise, the output signal is set to 0.
+**Sub-Circuit - NOT:**
+The `NOT` sub-circuit takes a single input signal `in` and performs a bitwise NOT operation. The output signal `out` represents the negation of the input signal.
 
 **Usage:**
 1. Define your specific values for `a` and `b` as input signals.
-2. Set the `threshold` value to the desired comparison threshold.
-3. Run the circuit using a compatible circom compiler.
+2. Connect the `a` and `b` signals to the inputs of the `CustomCircuit`.
+3. Compile and run the circuit using a compatible circom compiler.
 
 **Example:**
-To run the circuit with custom values for `a` and `b`:
+To use the circuit with custom values for `a` and `b`:
 
 ```circom
-include "MyCustomCircuit.circom";
+include "CustomCircuit.circom";
 
 signal input a;
 signal input b;
 
 // Set your custom values for 'a' and 'b'
-a <== 7;
-b <== 3;
+a <== 5;
+b <== 7;
 
 // Run the circuit
-component main = MyCustomCircuit();
+component main = CustomCircuit();
+```
