@@ -1,23 +1,16 @@
-pragma circom 2.0.0;
+// This circuit template checks if the sum of two inputs, a and b, is less than or equal to a threshold.
 
-/*This circuit template checks that c is the multiplication of a and b.*/  
+template MyCustomCircuit() {
+    signal input a;
+    signal input b;
+    signal output result;
+    signal threshold;
 
-template CustomCircuit () {  
-   signal input a;
-   signal input b;
-   signal x;
-   signal output y;
-   component andGate = AND();
-   component notGate = NOT();
-   andGate.a <== a;
-   andGate.b <== b;
-   x <== andGate.out;
-   notGate.in <==x;
-   
-   y <== notGate.out;
-   
-}
-template AND() {
+    // Choose the threshold value (e.g., 10)
+    threshold <== 10;
+
+    // Define the comparison circuit
+// template AND() {
     signal input a;
     signal input b;
     signal output out;
@@ -29,6 +22,21 @@ template NOT() {
     signal output out;
 
     out <== 1 + in - 2*in;
+} //
+
+
+    component comparison = LessThanOrEqual();
+    comparison.a <== a + b;
+    comparison.b <== threshold;
+    result <== comparison.result;
 }
 
-component main = CustomCircuit();
+template LessThanOrEqual() {
+    signal input a;
+    signal input b;
+    signal output result;
+
+    result <== a <= b ? 1 : 0;
+}
+
+component main = MyCustomCircuit();
