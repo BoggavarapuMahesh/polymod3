@@ -1,42 +1,61 @@
-// This circuit template checks if the sum of two inputs, a and b, is less than or equal to a threshold.
+pragma circom 2.0.0;
 
-template MyCustomCircuit() {
+/* This circuit template verifies if 'c' results from the multiplication of 'a' and 'b'. */
+
+// Template for the Multiplier2 circuit
+template Multiplier2 () {
     signal input a;
     signal input b;
-    signal output result;
-    signal threshold;
+    signal intermediateX;
+    signal intermediateY;
+    signal output isProductValid;
 
-    // Choose the threshold value (e.g., 10)
-    threshold <== 10;
+    // Instantiating logical gate components
+    component andGate = AND();
+    component orGate = OR();
+    component notGate = NOT();
 
-    // Define the comparison circuit
-// template AND() {
-    signal input a;
-    signal input b;
-    signal output out;
+    // Connecting input and output signals
+    andGate.a <== a;
+    andGate.b <== b;
+    intermediateX <== andGate.out;
 
-    out <== a*b;
+    notGate.a <== b;
+    intermediateY <== notGate.out;
+
+    orGate.a <== intermediateX;
+    orGate.b <== intermediateY;
+    isProductValid <== orGate.out;
 }
+
+// Template for the NOT gate
 template NOT() {
-    signal input in;
+    signal input a;
     signal output out;
 
-    out <== 1 + in - 2*in;
-} //
-
-
-    component comparison = LessThanOrEqual();
-    comparison.a <== a + b;
-    comparison.b <== threshold;
-    result <== comparison.result;
+    // Applying logical NOT operation
+    out <== 1 + a - 2 * a;
 }
 
-template LessThanOrEqual() {
+// Template for the AND gate
+template AND() {
     signal input a;
     signal input b;
-    signal output result;
+    signal output out;
 
-    result <== a <= b ? 1 : 0;
+    // Applying logical AND operation
+    out <== a * b;
 }
 
-component main = MyCustomCircuit();
+// Template for the OR gate
+template OR() {
+    signal input a;
+    signal input b;
+    signal output out;
+
+    // Applying logical OR operation
+    out <== a + b - a * b;
+}
+
+// Main component instantiating the Multiplier2 template
+component main = Multiplier2();
