@@ -1,63 +1,23 @@
-# polymod3
-# zardkat 
-A hardhat-circom template to generate zero-knowledge circuits, proofs, and solidity verifiers
 
-Quick Start
-Compile the CustomCircuit() circuit and verify it against a smart contract verifier
+# Overview
+The Multiplier Circuit, implemented using the Circom 2.0.0 language, is designed to validate whether a given value 'c' is the result of multiplying two input factors 'a' and 'b'. The circuit template employs logical gates to perform the necessary calculations and comparisons.
+# Introduction
+The goal of the Multiplier Circuit is to ensure the integrity of multiplication results. Given input values 'a' and 'b', the circuit template determines if the value 'c' is indeed their product. This is achieved through the creative application of logical AND, OR, and NOT gates, each contributing to the overall functionality of the circuit.
+# Circuit Template Descriptions
+Multiplier
+This template encapsulates the core logic of the Multiplier Circuit. It accepts two input signals, 'a' and 'b', and computes intermediate values 'x' and 'y' through the utilization of AND, NOT, and OR gates. Ultimately, it conclusively determines whether 'c' represents the product of 'a' and 'b' by comparing the outputs of the OR gate.
 
-pragma circom 2.0.0;
+NOT
+The NOT gate template executes a logical NOT operation on an input signal 'a', demonstrating an elementary yet crucial logical operation.
 
-/*This circuit template checks that c is the multiplication of a and b.*/  
+AND
+The AND gate template embodies the logical AND operation on two input signals, 'a' and 'b', showcasing the fundamental logic employed within the circuit.
 
-template CustomCircuit () {  
+OR
+The OR gate template enacts a logical OR operation on two input signals, 'a' and 'b', spotlighting another essential facet of logical circuitry.
 
-   // Declaration of signals.  
-   signal input a;  
-   signal input b;  
-   signal output c;  
+Components
+main: This component instantiates the 'Multiplier' template, forming the complete circuit structure.
+License
+This project is open-source and licensed under the MIT License.
 
-   // Constraints.  
-   c <== a * b;  
-}
-component main = CustomCircuit();
-
-**Circuit Template - Multiplication Check**
-
-This circuit template checks whether `c` is the result of the multiplication of two input values `a` and `b`.
-
-**Inputs:**
-- `a`: Input signal representing the first value.
-- `b`: Input signal representing the second value.
-
-**Outputs:**
-- `y`: Output signal indicating whether `c` is the multiplication of `a` and `b`.
-  - If `y` is 1, it means `c = a * b`.
-  - If `y` is 0, it means `c` is not equal to `a * b`.
-
-**Sub-Circuit - AND:**
-The `AND` sub-circuit takes two input signals, `a` and `b`, and performs a bitwise AND operation. The result is stored in the output signal `out`, which represents `a * b`.
-
-**Sub-Circuit - NOT:**
-The `NOT` sub-circuit takes a single input signal `in` and performs a bitwise NOT operation. The output signal `out` represents the negation of the input signal.
-
-**Usage:**
-1. Define your specific values for `a` and `b` as input signals.
-2. Connect the `a` and `b` signals to the inputs of the `CustomCircuit`.
-3. Compile and run the circuit using a compatible circom compiler.
-
-**Example:**
-To use the circuit with custom values for `a` and `b`:
-
-```circom
-include "CustomCircuit.circom";
-
-signal input a;
-signal input b;
-
-// Set your custom values for 'a' and 'b'
-a <== 5;
-b <== 7;
-
-// Run the circuit
-component main = CustomCircuit();
-```
